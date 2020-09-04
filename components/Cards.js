@@ -28,7 +28,25 @@ Axios.get('https://lambda-times-api.herokuapp.com/articles')
     .then(data =>{
         console.log(data.data.articles)
         let articlesObj = data.data.articles
-        articleMaker(articlesObj)
+        let bsArticle = articlesObj.bootstrap
+        let jsArticle = articlesObj.javascript
+        let jqArticle = articlesObj.jquery
+        let techArticle = articlesObj.technology
+
+        bsArticle.forEach(object => {
+            articleMaker(object)
+        })
+        jsArticle.forEach(object => {
+            articleMaker(object)
+        })
+        jqArticle.forEach(object => {
+            articleMaker(object)
+        })
+        techArticle.forEach(object => {
+            articleMaker(object)
+        })
+        
+        
     })
 
 
@@ -41,22 +59,29 @@ function articleMaker(articles){
     const cardHeadline = document.createElement('div')
     const cardAuthor = document.createElement('div')
     const imgContainer = document.createElement('div')
-    const authImg = document.createElement('img')
+    const authorImg = document.createElement('img')
     const authSpan = document.createElement('span')
     //Add CSS classes to elements
-    cardElement.classList.add('.card')
-    cardHeadline.classList.add('.headline')
-    cardAuthor.classList.add('.author')
-    imgContainer.classList.add('.img-container')
+    cardElement.classList.add('card')
+    cardHeadline.classList.add('headline')
+    cardAuthor.classList.add('author')
+    imgContainer.classList.add('img-container')
     //Append elements to child elements
     cardElement.appendChild(cardHeadline)
     cardElement.appendChild(cardAuthor)
     cardAuthor.appendChild(imgContainer)
     cardAuthor.appendChild(authSpan)
-    imgContainer.appendChild(authImg)
+    imgContainer.appendChild(authorImg)
 
-    cardHeadline.textContent = articles.article
-    console.log(cardHeadline)
+    cardHeadline.textContent = articles.headline
+    authorImg.src = articles.authorPhoto
+    authSpan.textContent = `By ${articles.authorName}`
+
+    cardElement.addEventListener('click', event=> {
+        console.log(cardHeadline.textContent)
+    })
+
     cardsHolder.appendChild(cardElement)
+    return cardElement
 
 }
